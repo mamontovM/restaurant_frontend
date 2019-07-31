@@ -1,0 +1,14 @@
+<ng-container *ngIf="auth$ | async as auth else login">
+  <span>{{auth.username}}</span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="handleLogoutClick()">Logout</button>
+  </mat-menu>
+</ng-container>
+
+<ng-template #login>
+  <a mat-button routerLink="/auth">Login</a>
+</ng-template>

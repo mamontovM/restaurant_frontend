@@ -1,0 +1,19 @@
+<ng-container *ngIf="!isLoadingResults" [formGroup]="_loginForm">
+  <mat-form-field>
+    <mat-label>Логин</mat-label>
+    <input matInput formControlName="login">
+    <mat-error *ngIf="_loginForm.controls['login'].invalid">{{getErrorLogin()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Пароль</mat-label>
+    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Введите пароль" matInput
+           formControlName="password">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Скрыть'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error *ngIf="_loginForm.controls['password'].invalid">{{getErrorPassword()}}</mat-error>
+  </mat-form-field>
+  <button mat-button [disabled]="_loginForm.invalid" color="primary" (click)="handleLoginClick()">Войти</button>
+</ng-container>
+
+<mat-spinner *ngIf="isLoadingResults"></mat-spinner>

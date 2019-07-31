@@ -1,0 +1,97 @@
+<div class="page">
+  <div class="containerDishList">
+    <mat-card class="matCardMyOrder">
+      <mat-card-header>
+        <mat-card-title style="text-align: center">Список блюд</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="scrollable">
+          <mat-accordion class="allDishes">
+            <mat-expansion-panel *ngFor="let dish of dishList" class="allDishPanel"
+                                 [class.selected]="selectedDish === dish"
+                                 (click)="onSelectedDish(dish)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{dish.name}} {{dish.maxCount - usedIngredientsInCurrentOrder(dish)}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container [formGroup]="_dishCountForm">
+                <mat-form-field>
+                  <mat-label>Количество</mat-label>
+                  <input matInput formControlName="count" class="inputCount">
+                </mat-form-field>
+              </ng-container>
+              <button mat-raised-button class="addDish" [disabled]="_dishCountForm.invalid"
+                      (click)="addToOrderDish(dish, _dishCountForm.controls['count'].value)">добавить
+              </button>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="windowForCreateOrder">
+
+    <div>Повар: {{choosedCook.name}} {{choosedCook.surname}}</div>
+    <div>Блюда:
+      <ul *ngFor="let dishView of newOrder.consist">
+        <li>
+          <table>
+            <tr>
+              <td>
+                <button (click)="minusOneDish(dishView.dish)">-</button>
+                {{dishView.dish.name}} - {{dishView.count}}
+                <button (click)="plusOneDish(dishView.dish)">+</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button (click)="removeDishFromOrder(dishView.dish)"> Убрать</button>
+              </td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+    <mat-form-field>
+      <input matInput required [(ngModel)]="newOrder.comments" placeholder="Комментарий">
+    </mat-form-field>
+    <button mat-button (click)="createOrder()">
+      Создать заказ
+    </button>
+    <button mat-button (click)="cancelOrder()">
+      Отменить заказ
+    </button>
+  </div>
+  <div class="containerCookList">
+    <mat-action-list class="listOfCook" *ngFor="let cook of cookList">
+      <button mat-button (click)="chooseCook(cook)">{{cook.name}} {{cook.surname}}
+      </button>
+    </mat-action-list>
+  </div>
+  <div class="informationOrder">
+    <div #current *ngIf="isChosed === false; else info">
+      panel with information
+    </div>
+
+    <ng-template #info>
+      <div class="containerOfStatus">
+        <div>Официант принял: {{isTakeWaiter}}</div>
+        <div>Повар принял: {{isTakeCook}}</div>
+        <div>Повар отдал: {{isGivenCook}}</div>
+        <div>Официант отдал: {{isGivenWaiter}}</div>
+        <button mat-button class="givenOrder" (click)="givenOrder(selectedOrder)">Отдать заказ</button>
+      </div>
+    </ng-template>
+
+  </div>
+  <div class="containerOrderList">
+    <mat-list class="listOfUsers" *ngFor="let myOrder of myOrders">
+      <button mat-list-item (click)="selectMyOrder(myOrder)">
+        <div class="headerOfItems">
+          Номер заказа: {{myOrder.id}} комментарий: {{myOrder.comments}}
+        </div>
+      </button>
+    </mat-list>
+  </div>
+</div>

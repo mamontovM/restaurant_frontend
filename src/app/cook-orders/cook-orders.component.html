@@ -1,0 +1,39 @@
+<div class="page">
+  <div class="containerMyOrders">
+    <mat-card class="matCardMyOrder">
+      <mat-card-header>
+        <mat-card-title>Мои заказы
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="scrollable">
+          <mat-accordion class="allDishes">
+            <mat-expansion-panel *ngFor="let myOrder of listOfMyOrders" class="listOfMyOrders"
+                                 (click)="selectMyOrder(myOrder)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div class="headerOfItems">
+                    Номер заказа: {{myOrder.id}} комментарий: {{myOrder.comments}}
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>Официант принял: {{isTakeWaiter}}</div>
+              <div>Повар принял: {{isTakeCook}}</div>
+              <div>Повар отдал: {{isGivenCook}}</div>
+              <div>Официант отдал: {{isGivenWaiter}}</div>
+              <div class="containerOfButtonOrder">
+                <button mat-button (click)="isTake(myOrder)" class="buttonTakeOrder">
+                  Принять заказ
+                </button>
+                <button mat-button (click)="isReady(myOrder)" class="buttonReadyOrder">
+                  Отдать заказ
+                </button>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

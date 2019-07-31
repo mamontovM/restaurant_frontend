@@ -1,0 +1,31 @@
+<div class="page">
+  <div class="containerOfListOrder">
+    <mat-card class="matCardAllOrder">
+      <mat-card-header>
+        <mat-card-title style="text-align: center">Все заказы</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="scrollable">
+          <mat-accordion class="allDishes">
+            <mat-expansion-panel *ngFor="let order of listOfAllOrders" class="allDishPanel"
+                                 (click)="selectMyOrder(order)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div class="headerOfItems">
+                    Номер заказа: {{order.id}} комментарий: {{order.comments}}
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>Официант принял: {{isTakeWaiter}}</div>
+              <div>Повар принял: {{isTakeCook}}</div>
+              <div>Повар отдал: {{isGivenCook}}</div>
+              <div>Официант отдал: {{isGivenWaiter}}</div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="allOther">
+  </div>
+</div>

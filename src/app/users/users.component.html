@@ -1,0 +1,66 @@
+<div class="page">
+  <div class="containerOfListUsers">
+    <mat-action-list class="listOfUsers" *ngFor="let users of allUsers">
+      <button mat-list-item (click)="chooseUser(users)">
+        {{users.name}} {{users.surname}}
+      </button>
+    </mat-action-list>
+  </div>
+  <div class="windowOfUser">
+    <div>
+    </div>
+    <div #current *ngIf="isChosed === false; else change" class="changeWindow">
+      <div class="textChangeContainer">Кликните по пользователю из списка для редактирования</div>
+    </div>
+    <ng-template #change>
+      <div class="changeContainer">
+        <div class="inscriptionChanging">Редактирование</div>
+        <mat-form-field>
+          <input matInput required [(ngModel)]="chosedUser.name" placeholder="Имя">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput required [(ngModel)]="chosedUser.surname" placeholder="Фамилия">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput required [(ngModel)]="chosedUser.login" placeholder="Логин">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput required [(ngModel)]="chosedUser.password" placeholder="Пароль">
+        </mat-form-field>
+        <mat-select placeholder="Роль: " [(ngModel)]="chosedUser.roleId">
+          <mat-option *ngFor="let item of allRoles" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+        <div class="containerButtons">
+          <button mat-stroked-button class="save" (click)="saveUser(chosedUser)">сохранить</button>
+          <button mat-stroked-button class="delete" (click)="deleteUser(chosedUser.id)">удалить</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div class="containerForCreateUsers">
+    <div class="inscriptionCreating">Создание</div>
+    <mat-form-field>
+      <input matInput required [(ngModel)]="createdUser.name" placeholder="Имя">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput required [(ngModel)]="createdUser.surname" placeholder="Фамилия">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput required [(ngModel)]="createdUser.login" placeholder="Логин">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput required [(ngModel)]="createdUser.password" placeholder="Пароль">
+    </mat-form-field>
+    <mat-select placeholder="Роль: " [(ngModel)]="createdUser.roleId">
+      <mat-option *ngFor="let item of allRoles" [value]="item.id">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+    <div class="containerButtons">
+      <button mat-stroked-button class="create" (click)="createUser(createdUser)">создать</button>
+      <button mat-stroked-button class="cancel" (click)="cancel()">сбросить</button>
+    </div>
+  </div>
+</div>

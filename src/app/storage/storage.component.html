@@ -1,0 +1,19 @@
+<ng-container>
+  <div class="storage">
+    <div class="storage-info">
+      Склад {{maxStorageVolume}}м<sup>3</sup>. Занято {{usedStorageVolume}}м<sup>3</sup>.
+      Свободно {{maxStorageVolume - usedStorageVolume}}м<sup>3</sup>.
+      <button mat-button (click)="updateUsedStorageVolume()">Обновить</button>
+    </div>
+    <div class="storage-edit">
+      <ng-container [formGroup]="_editStorage">
+        <mat-form-field>
+          <mat-label>Новый размер склада</mat-label>
+          <input matInput formControlName="value">
+          <!--    <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
+        </mat-form-field>
+        <button mat-button [disabled]="_editStorage.invalid" (click)="changeMaxStorageVolume()">Изменить</button>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

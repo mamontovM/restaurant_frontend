@@ -1,0 +1,43 @@
+<div class="statistic">
+  <ng-container [formGroup]="_statisticForm">
+    <mat-form-field>
+      <mat-label>Начания от</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="fromDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      <!--                    <mat-error *ngIf="_newIngredientPartForm.controls['expirationDate'].invalid">{{error}}</mat-error>-->
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Заканчивая</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="toDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <!--                    <mat-error *ngIf="_newIngredientPartForm.controls['expirationDate'].invalid">{{error}}</mat-error>-->
+    </mat-form-field>
+  </ng-container>
+  <button mat-stroked-button [disabled]="_statisticForm.invalid" (click)="getStatistic()"> Получить статистику</button>
+  Выручка {{this.statistic.revenue}}
+  <table>
+    <caption>Использованные ингредиенты</caption>
+    <tr>
+      <th> Название</th>
+      <th> Количество</th>
+    </tr>
+
+    <tr *ngFor="let item of this.usedIngredients | keyvalue">
+      <td> {{item.key}}</td>
+      <td> {{item.value}}</td>
+    </tr>
+  </table>
+  <table>
+    <caption>Проданные блюда</caption>
+    <tr>
+      <th> Название</th>
+      <th> Количество</th>
+    </tr>
+    <tr *ngFor="let item of this.soldDishes | keyvalue">
+      <td> {{item.key}}</td>
+      <td> {{item.value}}</td>
+    </tr>
+  </table>
+</div>
