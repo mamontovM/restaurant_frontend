@@ -35,19 +35,19 @@ export class AllOrdersComponent implements OnInit {
     this.selectedOrder = order;
     for (const hist of order.historyList) {
       switch (hist.statusId) {
-        case 1: {
+        case 3: {
           this.isTakeWaiter = 'Да';
           break;
         }
-        case 3: {
+        case 4: {
           this.isTakeCook = 'Да';
           break;
         }
-        case 4: {
+        case 5: {
           this.isGivenCook = 'Да';
           break;
         }
-        case 5: {
+        case 6: {
           this.isGivenWaiter = 'Да';
           break;
         }

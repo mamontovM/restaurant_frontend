@@ -29,16 +29,12 @@ export class CookOrdersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllOrderOfCook();
     this.auth$.subscribe((value: UserAuthInfo | undefined | null) => {
       if (value !== undefined && value !== null) {
         this.currentUserId = value.id;
+        this.orderService.getAllById(this.currentUserId).subscribe(resp => this.listOfMyOrders = resp);
       }
     });
-  }
-
-  getAllOrderOfCook() {
-    this.orderService.getAllById(this.currentUserId).subscribe(resp => this.listOfMyOrders = resp); // ИЗменить ID!
   }
 
   updateOrder(order: Orders, status: number) {
@@ -51,11 +47,11 @@ export class CookOrdersComponent implements OnInit {
 
 
   isTake(order: Orders) {
-    this.updateOrder(order, 3);
+    this.updateOrder(order, 4);
   }
 
   isReady(order: Orders) {
-    this.updateOrder(order, 4);
+    this.updateOrder(order, 5);
   }
 
   selectMyOrder(order: Orders) {
@@ -66,20 +62,20 @@ export class CookOrdersComponent implements OnInit {
     this.selectedOrder = order;
     for (const hist of order.historyList) {
       switch (hist.statusId) {
-        case 1: {
+        case 3: {
           this.isTakeWaiter = 'Да';
           break;
         }
-        case 3: {
+        case 4: {
           this.isTakeCook = 'Да';
           this.isTakeCurrentOrderButton = true;
           break;
         }
-        case 4: {
+        case 5: {
           this.isGivenCook = 'Да';
           break;
         }
-        case 5: {
+        case 6: {
           this.isGivenWaiter = 'Да';
           break;
         }

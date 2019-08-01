@@ -32,7 +32,7 @@
   </div>
   <div class="windowForCreateOrder">
 
-    <div>Повар: {{choosedCook.name}} {{choosedCook.surname}}</div>
+    <div>Повар:  {{choosedCook.name}} {{choosedCook.surname}}</div>
     <div>Блюда:
       <ul *ngFor="let dishView of newOrder.consist">
         <li>
@@ -56,10 +56,10 @@
     <mat-form-field>
       <input matInput required [(ngModel)]="newOrder.comments" placeholder="Комментарий">
     </mat-form-field>
-    <button mat-button (click)="createOrder()">
+    <button mat-button (click)="createOrder()" class="colorForButton">
       Создать заказ
     </button>
-    <button mat-button (click)="cancelOrder()">
+    <button mat-button (click)="cancelOrder()" class="colorForButton">
       Отменить заказ
     </button>
   </div>
