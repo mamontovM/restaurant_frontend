@@ -15,7 +15,9 @@
   margin-right: auto;
   overflow: auto;
 }
-
+th.mat-header-cell{
+  text-align: center;
+}
 input[type=checkbox][disabled] {
   //outline:1px solid red; // or whatever
   color: darkred;

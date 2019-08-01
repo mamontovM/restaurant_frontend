@@ -29,9 +29,19 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>В меню</th>
       <td mat-cell *matCellDef="let dish"><input type="checkbox" disabled [checked]="dish.ismenu"></td>
     </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef>Удалить</th>
+      <td mat-cell *matCellDef="let dish">
+        <button mat-icon-button [disabled]="!dish.editable"
+                (click)="$event.stopPropagation(); openDeleteDishDialog(dish)" color="warn" aria-label="Удалить блюдо">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
     <ng-container matColumnDef="consist">
       <th mat-header-cell *matHeaderCellDef>Состав</th>
       <td mat-cell *matCellDef="let dish">
+        <ng-container *ngIf="!dish.editable"> Нельзя изменять состав проданных блюд</ng-container>
         <table>
           <tr>
             <th>Ингредиент</th>
@@ -43,19 +53,19 @@
             <td>{{part.value}}{{part.ingredient.measure}}</td>
             <td>
               <button (click)="$event.stopPropagation(); deleteConsist( part.id.dishId, part.id.ingredientId)"
-                      mat-flat-button color="warn">
-                Удалить
+                      mat-flat-button color="warn" [disabled]="!dish.editable">
+                Удалить из блюда
               </button>
             </td>
           </tr>
-          <ng-container [formGroup]="_newConsist">
+          <ng-container [formGroup]="_newConsist" >
             <tr>
               <td>
-                <mat-form-field>
+                <mat-form-field >
                   <mat-select placeholder="Ингредиент" formControlName="ingredientId"
-                              (click)="$event.stopPropagation()">
+                              (click)="$event.stopPropagation()" >
                     <mat-option *ngFor="let item of ingredients" [value]="item.id" (click)="$event.stopPropagation()">
-                      {{item.name}}
+                      {{item.name}} ({{item.measure}})
                     </mat-option>
                   </mat-select>
                   <!--    <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
@@ -65,13 +75,13 @@
                 <mat-form-field>
                   <mat-label>Количество</mat-label>
                   <input matInput type="number" placeholder="Кол-во" formControlName="value"
-                         (click)="$event.stopPropagation()">
+                         (click)="$event.stopPropagation()" >
                 </mat-form-field>
               </td>
               <td>
-                <button [disabled]="_newConsist.invalid" mat-stroked-button
+                <button [disabled]="_newConsist.invalid || !dish.editable" mat-stroked-button
                         (click)="$event.stopPropagation(); createDishConsist(dish.id)">
-                  Добавить ингредиент
+                  Добавить/изменить ингредиент
                 </button>
               </td>
             </tr>

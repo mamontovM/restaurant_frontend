@@ -8,6 +8,7 @@ export class Dish {
   type = '';
   consist: DishConsist[] = [];
   maxCount = 0;
+  editable = true;
 }
 
 // export class DishForDb {

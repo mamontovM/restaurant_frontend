@@ -50,8 +50,7 @@ export class LoginformComponent implements OnInit {
       })
     ).subscribe((value: UserAuthInfo) => {
       if (value.accessToken === 'undefined') {
-        this.isLoadingResults = false;
-        this._loginForm.setValue({password: ''});
+         this.isLoadingResults = false;
       } else {
         this.router.navigate(['']);
       }
