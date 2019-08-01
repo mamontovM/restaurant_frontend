@@ -21,6 +21,7 @@ import {async} from 'rxjs/internal/scheduler/async';
   styleUrls: ['./waiter-orders.component.scss']
 })
 export class WaiterOrdersComponent implements OnInit {
+  COUNT = 'count';
   newOrder: Orders = new Orders();
   cookList: Users[] = [];
   dishList: Dish[] = [];
@@ -76,6 +77,7 @@ export class WaiterOrdersComponent implements OnInit {
   usedIngredientsInCurrentOrder(dish: Dish): number {
     const tempIngredients = [];
     for (let i = 0; i < dish.consist.length; i++) {
+      // tslint:disable-next-line:strict-type-predicates
       tempIngredients[i] = Math.ceil(typeof this.reservedIngredients[dish.consist[i].ingredient.id] === 'undefined' ?
         0 : this.reservedIngredients[dish.consist[i].ingredient.id] / dish.consist[i].value);
     }
@@ -95,11 +97,9 @@ export class WaiterOrdersComponent implements OnInit {
 
   changeFormValidator(dish: Dish) {
     this._dishCountForm.reset();
-    /* tslint:disable:no-string-literal */
-    this._dishCountForm.controls['count'].clearValidators();
-    this._dishCountForm.controls['count'].setValidators(
+    this._dishCountForm.controls[this.COUNT].clearValidators();
+    this._dishCountForm.controls[this.COUNT].setValidators(
       [Validators.required, Validators.min(1), Validators.max(dish.maxCount - this.usedIngredientsInCurrentOrder(dish))]);
-    /* tslint:enable:no-string-literal */
   }
 
   // добавляет deltaCount блюд к заказу
@@ -163,11 +163,11 @@ export class WaiterOrdersComponent implements OnInit {
           this.newHistory.statusId = 2;
           this.newHistory.userId = this.choosedCook.id;
           this.historyService.nextStatus(this.newHistory).subscribe();
-        })
-    })
-    this.choosedCook = new Users(0, '', '', '', '', 0);
-    this.newOrder = new Orders();
-    this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
+          this.choosedCook = new Users(0, '', '', '', '', 0);
+          this.newOrder = new Orders();
+          this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
+        });
+    });
   }
 
   givenOrder(order: Orders) {
@@ -177,7 +177,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.newHistory.statusId = 6;
     this.newHistory.userId = this.currentUserId; // Изменить на текующий!
     this.historyService.nextStatus(this.newHistory).subscribe(() =>
-      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp));// ИЗменить на текущий
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
   }
 
   takeOrder(order: Orders) {
@@ -187,7 +187,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.newHistory.statusId = 3;
     this.newHistory.userId = this.currentUserId; // Изменить на текующий!
     this.historyService.nextStatus(this.newHistory).subscribe(() =>
-      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp));// ИЗменить на текущий
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
   }
 
   selectMyOrder(order: Orders) {
