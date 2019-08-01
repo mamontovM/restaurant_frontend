@@ -53,6 +53,9 @@ export class IngredientService {
       this.ingredientsPath + '?pageIndex=' + pageIndex + '&sortedBy=' + sort + '&pageSize=' + pageSize + '&sortDir=' + order,
       {headers: this.myHeaders});
   }
+  getAllIngredientsNoPagination(): Observable<Ingredient[]> {
+    return this.http.get<Ingredient[]>(this.ingredientsPath + '/nopage', {headers: this.myHeaders});
+  }
 
   createIngredient(ing: {name: string, measure: string, volumePerUnit: number}): Observable<{}> {
     return this.http.post(this.ingredientsPath, JSON.stringify(ing), {headers: this.myHeaders});

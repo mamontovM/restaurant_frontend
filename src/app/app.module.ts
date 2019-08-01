@@ -24,7 +24,8 @@ import {
   MatIconModule,
   MatMenuModule,
   MatProgressSpinnerModule,
-
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IngredientsComponent} from './ingredients/ingredients.component';
@@ -46,6 +47,8 @@ import {AUTH_INITIALIZER} from './auth/currentuser.service';
 import {HTTP_AUTH_INTERCEPTOR_PROVIDER} from './auth/http.interceptor';
 import {PermitDirective} from './auth/permit.directive';
 import {UserMenuComponent} from './user-menu/user-menu.component';
+import {DeleteDialogComponent} from './dialog/delete.dialog';
+import {AlertDialogComponent} from './dialog/alert.dialog';
 
 
 @NgModule({
@@ -66,7 +69,8 @@ import {UserMenuComponent} from './user-menu/user-menu.component';
     LoginformComponent,
     PermitDirective,
     UserMenuComponent,
-
+    DeleteDialogComponent,
+    AlertDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,11 +99,17 @@ import {UserMenuComponent} from './user-menu/user-menu.component';
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
 
+  ],
+  entryComponents: [
+    DeleteDialogComponent,
+    AlertDialogComponent
   ],
   providers: [
     HTTP_AUTH_INTERCEPTOR_PROVIDER,
-    AUTH_INITIALIZER
+    AUTH_INITIALIZER,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })

@@ -2,10 +2,11 @@ import {AsyncValidatorFn, AbstractControl, ValidationErrors} from '@angular/form
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {IngredientService} from './ingredient.service';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 export function validatorIngredientUniqueName(ingredientService: IngredientService): AsyncValidatorFn {
   return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-    return ingredientService.checkIngredientNameUnique(control.value  as string).map(
+    return ingredientService.checkIngredientNameUnique(control.value as string).map(
       res => {
         return (res) ? null : {NameExists: 'Такой ингредиент уже существует'};
       }

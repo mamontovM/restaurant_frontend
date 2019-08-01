@@ -1,13 +1,23 @@
 /* Structure */
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+}
+.filter {
+
+}
 .all-ingredients-table-container {
   position: relative;
   //max-height: 500px;
-  display: flex;
-  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
   overflow: auto;
 }
-
+th.mat-header-cell{
+  text-align: center;
+}
 input[type=checkbox][disabled] {
   //outline:1px solid red; // or whatever
   color: darkred;

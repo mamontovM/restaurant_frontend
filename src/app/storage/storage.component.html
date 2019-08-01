@@ -1,8 +1,8 @@
 <ng-container>
   <div class="storage">
     <div class="storage-info">
-      Склад {{maxStorageVolume}}м<sup>3</sup>. Занято {{usedStorageVolume}}м<sup>3</sup>.
-      Свободно {{maxStorageVolume - usedStorageVolume}}м<sup>3</sup>.
+      Склад {{maxStorageVolume}}м<sup>3</sup>. Занято {{usedStorageVolume | number:'1.2-5'}}м<sup>3</sup>.
+      Свободно {{maxStorageVolume - usedStorageVolume | number:'1.2-5'}}м<sup>3</sup>.
       <button mat-button (click)="updateUsedStorageVolume()">Обновить</button>
     </div>
     <div class="storage-edit">

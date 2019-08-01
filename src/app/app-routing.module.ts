@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: 'ingredients-read',
     component: IngredientsReadOnlyComponent,
-    canActivate: [AdminGuard, CookGuard],
+    canActivate: [AdminGuard],
   },
   {
     path: 'dishes',

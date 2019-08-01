@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UsersService} from '../users/users.service';
 import {Users} from '../users/users';
 import {OrdersService} from '../utils/orders.service';
@@ -12,6 +12,8 @@ import {Dish} from '../utils/dish';
 import {IngredientService} from '../ingredients/ingredient.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {OrdersForHistory} from '../utils/orders.for.history';
+import {CurrentUserService, UserAuthInfo} from '../auth/currentuser.service';
+import {async} from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-waiter-orders',
@@ -19,29 +21,32 @@ import {OrdersForHistory} from '../utils/orders.for.history';
   styleUrls: ['./waiter-orders.component.scss']
 })
 export class WaiterOrdersComponent implements OnInit {
+  COUNT = 'count';
   newOrder: Orders = new Orders();
   cookList: Users[] = [];
   dishList: Dish[] = [];
   selectedDish: Dish = new Dish();
   nameCountDishList: DishView[] = [];
-  // countOfDishInOrder: number;
   myOrders: Orders[] = [];
-  choosedCook: Users = new Users(0, '', '' , '', '', 0);
+  choosedCook: Users = new Users(0, '', '', '', '', 0);
   orderDishList: OrderDish[] = [];
   createdOrder: Orders = new Orders();
   newHistory: History = new History();
   isChosed: boolean;
-  // choosedOrder: Orders;
   selectedOrder: Orders = new Orders();
   isTakeCook = '';
   isTakeWaiter = '';
   isGivenCook = '';
   isGivenWaiter = '';
+  isTakeCurrentOrderButton = false;
   reservedIngredients: number[] = [];
   _dishCountForm: FormGroup;
+  currentUserId = 0;
+  public auth$ = this.currentUserService.auth$;
 
   constructor(private userService: UsersService, private orderService: OrdersService, private dishService: DishService,
-              private historyService: HistoryService, private ingredientService: IngredientService, private fb: FormBuilder) {
+              private historyService: HistoryService, private ingredientService: IngredientService, private fb: FormBuilder,
+              private currentUserService: CurrentUserService) {
     this._dishCountForm = fb.group({
       count: fb.control(0, [Validators.required])
     });
@@ -52,14 +57,15 @@ export class WaiterOrdersComponent implements OnInit {
     this.isChosed = false;
     this.userService.getAllCook().subscribe(resp => this.cookList = resp);
     this.dishService.getMenuDishes().subscribe(resp => this.dishList = resp);
-    this.orderService.getAllById(2).subscribe(resp => this.myOrders = resp); // Заменить на текущего!
-    // this.newOrder = new Orders();
     this.newOrder.consist = [];
-    // this.selectedDish = new Dish();
-    // this.choosedCook = new Users();
-    // this.createdOrder = new Orders();
     this.orderDishList = [];
     this.nameCountDishList = [];
+    this.auth$.subscribe((value: UserAuthInfo | undefined | null) => {
+      if (value !== undefined && value !== null) {
+        this.currentUserId = value.id;
+        this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
+      }
+    });
   }
 
   onSelectedDish(selectedDish: Dish) {
@@ -85,18 +91,15 @@ export class WaiterOrdersComponent implements OnInit {
   cancelOrder() {
     this.orderDishList = [];
     this.reservedIngredients = [];
-    // this.newOrder = new Orders();
     this.newOrder.consist = [];
     this.nameCountDishList = [];
   }
 
   changeFormValidator(dish: Dish) {
     this._dishCountForm.reset();
-    /* tslint:disable:no-string-literal */
-    this._dishCountForm.controls['count'].clearValidators();
-    this._dishCountForm.controls['count'].setValidators(
+    this._dishCountForm.controls[this.COUNT].clearValidators();
+    this._dishCountForm.controls[this.COUNT].setValidators(
       [Validators.required, Validators.min(1), Validators.max(dish.maxCount - this.usedIngredientsInCurrentOrder(dish))]);
-    /* tslint:enable:no-string-literal */
   }
 
   // добавляет deltaCount блюд к заказу
@@ -129,24 +132,6 @@ export class WaiterOrdersComponent implements OnInit {
           this.reservedIngredients[oneDishIngredient.ingredient.id] + oneDishIngredient.value * _deltaCount;
     }
     this.changeFormValidator(dishAdd);
-    // this.orderDishList.push(new OrderDish());
-    // this.nameCountDishList.push(new DishView());
-    // for (let i = 0; i < dish.consist.length; i++) {
-    //   this.reservedIngredients[dish.consist[i].ingredient.id] = this.reservedIngredients[dish.consist[i].ingredient.id] === undefined ?
-    //     dish.consist[i].value * this.countOfDishInOrder : this.reservedIngredients[dish.consist[i].ingredient.id] + dish.consist[i].value
-    //     * this.countOfDishInOrder;
-    // }
-    // for (let i = 0; i < this.orderDishList.length; i++) {
-    //   if (this.orderDishList[i].dish === undefined) {
-    //     this.orderDishList[i].dish = dish;
-    //     this.orderDishList[i].count = this.countOfDishInOrder;
-    //   }
-    //
-    //   if (this.nameCountDishList[i].name === undefined) {
-    //     this.nameCountDishList[i].name = dish.name;
-    //     this.nameCountDishList[i].count = this.countOfDishInOrder;
-    //   }
-    // }
   }
 
   chooseCook(cook: Users) {
@@ -154,12 +139,8 @@ export class WaiterOrdersComponent implements OnInit {
 
   }
 
-  getAllMyOrders(id: number) {
-    this.orderService.getAllById(id).subscribe(resp => this.myOrders = resp);
-  }
-
   createOrder() {
-    this.orderService.createOrder({comments: this.newOrder.comments, }).subscribe((res: Orders) => {
+    this.orderService.createOrder({comments: this.newOrder.comments}).subscribe((res: Orders) => {
       this.createdOrder = res;
       this.newOrder.id = res.id;
       this.newOrder.consist.forEach((x: OrderDish) => x.id.orderId = res.id);
@@ -177,51 +158,61 @@ export class WaiterOrdersComponent implements OnInit {
           this.newHistory.order = new OrdersForHistory();
           this.newHistory.order.id = this.createdOrder.id;
           this.newHistory.statusId = 1;
-          this.newHistory.userId = 1; // Изменить на текующий!
+          this.newHistory.userId = this.currentUserId;
           this.historyService.nextStatus(this.newHistory).subscribe();
           this.newHistory.statusId = 2;
           this.newHistory.userId = this.choosedCook.id;
           this.historyService.nextStatus(this.newHistory).subscribe();
-        }
-      );
+          this.choosedCook = new Users(0, '', '', '', '', 0);
+          this.newOrder = new Orders();
+          this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
+        });
     });
-
-    // this.orderService.createOrder(this.newOrder).subscribe(resp => this.createdOrder = resp);
-    // this.newHistory = new History();
-    // console.log(this.createdOrder);
-    // this.newHistory.order_id = this.createdOrder.id;
-    // this.newHistory.statusId = 1;
-    // this.newHistory.user_id = 1; // Изменить на текующий!
-    // this.historyService.nextStatus(this.newHistory).subscribe();
   }
 
   givenOrder(order: Orders) {
     this.newHistory = new History();
     this.newHistory.order = new OrdersForHistory();
     this.newHistory.order.id = order.id;
-    this.newHistory.statusId = 5;
-    this.newHistory.userId = 2; // Изменить на текующий!
-    this.historyService.nextStatus(this.newHistory).subscribe();
+    this.newHistory.statusId = 6;
+    this.newHistory.userId = this.currentUserId; // Изменить на текующий!
+    this.historyService.nextStatus(this.newHistory).subscribe(() =>
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
+  }
+
+  takeOrder(order: Orders) {
+    this.newHistory = new History();
+    this.newHistory.order = new OrdersForHistory();
+    this.newHistory.order.id = order.id;
+    this.newHistory.statusId = 3;
+    this.newHistory.userId = this.currentUserId; // Изменить на текующий!
+    this.historyService.nextStatus(this.newHistory).subscribe(() =>
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
   }
 
   selectMyOrder(order: Orders) {
+    this.isTakeWaiter = 'Нет';
+    this.isTakeCook = 'Нет';
+    this.isGivenCook = 'Нет';
+    this.isGivenWaiter = 'Нет';
     this.selectedOrder = order;
     this.isChosed = true;
     for (const hist of order.historyList) {
       switch (hist.statusId) {
-        case 1: {
-          this.isTakeWaiter = 'Да';
-          break;
-        }
         case 3: {
-          this.isTakeCook = 'Да';
+          this.isTakeWaiter = 'Да';
+          this.isTakeCurrentOrderButton = true;
           break;
         }
         case 4: {
-          this.isGivenCook = 'Да';
+          this.isTakeCook = 'Да';
           break;
         }
         case 5: {
+          this.isGivenCook = 'Да';
+          break;
+        }
+        case 6: {
           this.isGivenWaiter = 'Да';
           break;
         }
@@ -235,6 +226,7 @@ export class WaiterOrdersComponent implements OnInit {
       this.isTakeCook = 'нет';
     }
     if (this.isTakeWaiter !== 'Да') {
+      this.isTakeCurrentOrderButton = false;
       this.isTakeWaiter = 'нет';
     }
     if (this.isGivenCook !== 'Да') {

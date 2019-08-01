@@ -22,12 +22,14 @@ interface DecodedAccessToken {
   authorities: string[];
   sub: string;
   role: number;
+  id: number;
   exp: number;
 }
 
 export interface UserAuthInfo {
   username: string;
   roleId: number;
+  id: number;
 // permissions: Set<string>;
   accessToken: string;
   // authToken: string;
@@ -51,6 +53,7 @@ export class CurrentUserService {
         return {
           username: accessToken.sub,
           roleId: accessToken.role,
+          id: accessToken.id,
           // permissions: new Set(accessToken.authorities),
           accessToken: auth.authToken,
           refreshToken: auth.refreshToken

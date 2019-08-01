@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
 }
-.givenOrder {
+.buttonOrder {
   background-color: rgb(245,245,245);
   margin-top: 10px;
 }
@@ -42,4 +42,8 @@
 }
 .headerOfItems {
   text-align: center;
+}
+.colorForButton {
+  background-color: rgb(245,245,245);
+  margin-top: 8px;
 }

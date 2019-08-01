@@ -16,7 +16,7 @@
     </ng-container>
     <ng-container matColumnDef="summaryAmount">
       <th mat-header-cell *matHeaderCellDef>Общий вес(с просрочкой)</th>
-      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryAmount}}</td>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryAmount | number:'1.2-5'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="expandedDetail">
@@ -31,8 +31,8 @@
             </tr>
             <tr *ngFor="let part of ingredient.parts">
               <td>{{part.id}}</td>
-              <td>{{part.value}}</td>
-              <td>{{part.expirationDate}}</td>
+              <td>{{part.value | number:'1.2-5'}}</td>
+              <td>{{part.expirationDate | date:'shortDate'}}</td>
             </tr>
           </table>
         </div>

@@ -1,9 +1,12 @@
 /* Structure */
-
-.all-ingredients-table-container {
-  position: relative;
+:host {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+.all-ingredients-table-container {
+  position: relative;
+  max-width: 80%;
   overflow: auto;
 }
 

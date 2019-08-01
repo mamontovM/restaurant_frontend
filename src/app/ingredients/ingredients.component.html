@@ -16,7 +16,7 @@
     </ng-container>
     <ng-container matColumnDef="summaryAmount">
       <th mat-header-cell *matHeaderCellDef>Общий вес(с просрочкой)</th>
-      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryAmount}}</td>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryAmount | number:'1.2-5'}}</td>
     </ng-container>
     <ng-container matColumnDef="volumePerUnit">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Объем на ед. м<sup>3</sup></th>
@@ -24,13 +24,13 @@
     </ng-container>
     <ng-container matColumnDef="summaryVolume">
       <th mat-header-cell *matHeaderCellDef>Общий объем м<sup>3</sup></th>
-      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryVolume}}</td>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryVolume | number:'1.2-5'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let ingredient">
-        <button (click)="$event.stopPropagation(); deleteIngredient(ingredient)" mat-flat-button color="warn">
+        <button (click)="$event.stopPropagation(); openDialogDeleteIngredient(ingredient)" mat-flat-button color="warn">
           Удалить
         </button>
       </td>
@@ -58,11 +58,11 @@
             </tr>
             <tr *ngFor="let part of ingredient.parts">
               <td>{{part.id}}</td>
-              <td>{{part.value}}</td>
-              <td>{{part.expirationDate}}</td>
-              <td>{{ingredient.volumePerUnit * part.value}} </td>
+              <td>{{part.value | number:'1.2-5'}}</td>
+              <td>{{part.expirationDate | date:'shortDate'}}</td>
+              <td>{{ingredient.volumePerUnit * part.value | number:'1.2-5'}} </td>
               <td>
-                <button (click)="deleteIngPart( ingredient, part)" mat-flat-button color="warn">Удалить</button>
+                <button (click)="openDialogDeleteIngredientPart( ingredient, part)" mat-flat-button color="warn">Удалить</button>
               </td>
             </tr>
             <tr>
@@ -81,10 +81,10 @@
                     <mat-datepicker #picker></mat-datepicker>
                     <!--                    <mat-error *ngIf="_newIngredientPartForm.controls['expirationDate'].invalid">{{error}}</mat-error>-->
                   </mat-form-field>
-                  {{this._newIngredientPartForm.value.value * ingredient.volumePerUnit}} м<sup>3</sup>
+                  {{this._newIngredientPartForm.value.value * ingredient.volumePerUnit | number:'1.2-5'}} м<sup>3</sup>
                 </ng-container>
                 <button mat-stroked-button [disabled]="_newIngredientPartForm.invalid" (click)="createIngPart()">
-                  Добавить ингредиент
+                  Добавить партию
                 </button>
               </td>
             </tr>
@@ -105,25 +105,27 @@
 </div>
 
 <app-storage></app-storage>
-
-<ng-container [formGroup]="_newIngredientForm">
-  <mat-form-field>
-    <mat-label>Название ингредиента</mat-label>
-    <input matInput formControlName="name">
-    <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Единица измерения</mat-label>
-    <input matInput formControlName="measure">
-    <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Объем на единицу</mat-label>
-    <input matInput formControlName="volumePerUnit">
-    <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
-  </mat-form-field>
-</ng-container>
-<button mat-stroked-button [disabled]="_newIngredientForm.invalid" (click)="createIng()">Добавить ингредиент</button>
+<div>
+  <ng-container [formGroup]="_newIngredientForm">
+    <mat-form-field>
+      <mat-label>Название ингредиента</mat-label>
+      <input matInput formControlName="name">
+      <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Единица измерения</mat-label>
+      <input matInput formControlName="measure">
+      <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Объем на единицу</mat-label>
+      <input matInput formControlName="volumePerUnit">
+      <!--        <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
+    </mat-form-field>
+    <button mat-stroked-button [disabled]="_newIngredientForm.invalid" (click)="createIng()">Добавить ингредиент
+    </button>
+  </ng-container>
+</div>
 
 <app-missing-ingredients></app-missing-ingredients>
 
