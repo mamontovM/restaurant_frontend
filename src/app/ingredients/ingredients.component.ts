@@ -39,7 +39,6 @@ export class IngredientsComponent implements AfterViewInit {
   _newIngredientForm: FormGroup;
   _newIngredientPartForm: FormGroup;
   freeStorageVolume = 0;
-  // usedStorageVolume = 0;
   maxStorageVolume = 0;
   refreshIngredientsTable$ = new Subject<boolean>();
 
@@ -110,31 +109,6 @@ export class IngredientsComponent implements AfterViewInit {
     merge(this.sort.sortChange, this.paginator.page).subscribe(() => {
       this.refreshIngredientsTable$.next(true);
     });
-    //   .pipe(
-    //     startWith({}),
-    //     switchMap(() => {
-    //       return this.ingredientService
-    //         .getAllIngredients(this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
-    //     }),
-    //     map(data => {
-    //       this.resultsLength = data.totalCount;
-    //       return data.items;
-    //     }),
-    //     catchError(() => {
-    //       return observableOf([]);
-    //     })
-    //   ).subscribe((data: Ingredient[]) => {
-    //   data.forEach((a: Ingredient) => {
-    //     let sum = 0;
-    //     for (const part of a.parts) {
-    //       // tslint:disable-next-line:no-unsafe-any
-    //       sum += part.value;
-    //     }
-    //     a.summaryAmount = sum;
-    //     a.summaryVolume = sum * a.volumePerUnit;
-    //   });
-    //   this.ingredients = data;
-    // });
   }
 
 
@@ -201,20 +175,6 @@ export class IngredientsComponent implements AfterViewInit {
           this.ingredientService.refreshMissingIngredients$.next(true);
           this.storageService.refreshUsedStorage$.next(true);
         });
-        // ingr.parts.splice(ingr.parts.indexOf(part), 1);
-        // this.ingredientService.deleteIngredientPart(part.id).subscribe(() => {
-        //   this.ingredientService.refreshMissingIngredients$.next(true);
-        //   this.storageService.refreshUsedStorage$.next(true);
-        // });
-        // let sum = 0;
-        // // tslint:disable-next-line:no-unsafe-any
-        // for (const partOfIngredient of this.ingredients[this.ingredients.indexOf(ingr)].parts) {
-        //   // tslint:disable-next-line:no-unsafe-any
-        //   sum += partOfIngredient.value;
-        // }
-        // this.ingredients[this.ingredients.indexOf(ingr)].summaryAmount = sum;
-        // this.ingredients[this.ingredients.indexOf(ingr)].summaryVolume = sum *
-        //   this.ingredients[this.ingredients.indexOf(ingr)].volumePerUnit;
       }
     });
   }

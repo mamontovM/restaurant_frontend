@@ -7,7 +7,7 @@
 <div class="all-ingredients-table-container">
 
   <table mat-table [dataSource]="dishes" multiTemplateDataRows matSort matSortActive="id" matSortDisableClear
-         matSortDirection="asc">
+         matSortDirection="desc">
     <caption>Все блюда</caption>
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ID</th>
