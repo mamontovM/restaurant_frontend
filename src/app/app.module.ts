@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -35,7 +35,6 @@ import {WaiterOrdersComponent} from './waiter-orders/waiter-orders.component';
 import {CookOrdersComponent} from './cook-orders/cook-orders.component';
 import {UtilsComponent} from './utils/utils.component';
 import {AllOrdersComponent} from './all-orders/all-orders.component';
-import {IngredientsReadOnlyComponent} from './ingredients-read-only/ingredients-read.component';
 import {MissingIngredientsComponent} from './missing-ingredients/missing-ingredients.component';
 import {StorageComponent} from './storage/storage.component';
 import {CommonModule} from '@angular/common';
@@ -49,6 +48,8 @@ import {PermitDirective} from './auth/permit.directive';
 import {UserMenuComponent} from './user-menu/user-menu.component';
 import {DeleteDialogComponent} from './dialog/delete.dialog';
 import {AlertDialogComponent} from './dialog/alert.dialog';
+import {IngredientsAdminComponent} from './ingredients-admin/ingredients-admin.component';
+import {IngredientsCookComponent} from './ingredients-cook/ingredients-cook.component';
 
 
 @NgModule({
@@ -61,7 +62,6 @@ import {AlertDialogComponent} from './dialog/alert.dialog';
     CookOrdersComponent,
     UtilsComponent,
     AllOrdersComponent,
-    IngredientsReadOnlyComponent,
     MissingIngredientsComponent,
     StorageComponent,
     LoginformComponent,
@@ -71,6 +71,8 @@ import {AlertDialogComponent} from './dialog/alert.dialog';
     UserMenuComponent,
     DeleteDialogComponent,
     AlertDialogComponent,
+    IngredientsAdminComponent,
+    IngredientsCookComponent,
   ],
   imports: [
     BrowserModule,

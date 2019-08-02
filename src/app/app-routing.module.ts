@@ -5,7 +5,7 @@ import {IngredientsComponent} from './ingredients/ingredients.component';
 import {DishesComponent} from './dishes/dishes.component';
 import {CookOrdersComponent} from './cook-orders/cook-orders.component';
 import {WaiterOrdersComponent} from './waiter-orders/waiter-orders.component';
-import {IngredientsReadOnlyComponent} from './ingredients-read-only/ingredients-read.component';
+import {IngredientsAdminComponent} from './ingredients-admin/ingredients-admin.component';
 import {AllOrdersComponent} from './all-orders/all-orders.component';
 import {HistoryComponent} from './history/history.component';
 import {LoginformComponent} from './loginform/loginform.component';
@@ -13,6 +13,7 @@ import {KeeperGuard} from './auth/keeper.guard';
 import {AdminGuard} from './auth/admin.guard';
 import {CookGuard} from './auth/cook.guard';
 import {WaiterGuard} from './auth/waiter.guard';
+import {IngredientsCookComponent} from './ingredients-cook/ingredients-cook.component';
 
 const routes: Routes = [
   {
@@ -33,9 +34,14 @@ const routes: Routes = [
     canActivate: [AdminGuard],
   },
   {
-    path: 'ingredients-read',
-    component: IngredientsReadOnlyComponent,
+    path: 'ingredientsAdmin',
+    component: IngredientsAdminComponent,
     canActivate: [AdminGuard],
+  },
+  {
+    path: 'ingredientsCook',
+    component: IngredientsCookComponent,
+    canActivate: [CookGuard],
   },
   {
     path: 'dishes',

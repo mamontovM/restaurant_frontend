@@ -9,9 +9,9 @@ import {Ingredient} from '../utils/Ingredient';
 
 
 @Component({
-  selector: 'app-ingredients',
-  templateUrl: './ingredients-read.component.html',
-  styleUrls: ['./ingredients-read.component.scss'],
+  selector: 'app-ingredients-cook',
+  templateUrl: './ingredients-cook.component.html',
+  styleUrls: ['./ingredients-cook.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -20,7 +20,7 @@ import {Ingredient} from '../utils/Ingredient';
     ]),
   ],
 })
-export class IngredientsReadOnlyComponent implements AfterViewInit {
+export class IngredientsCookComponent implements AfterViewInit {
   ingredients: Ingredient[] = [];
   columnsToDisplay = ['id', 'name', 'measure', 'summaryAmount'];
   resultsLength = 0;

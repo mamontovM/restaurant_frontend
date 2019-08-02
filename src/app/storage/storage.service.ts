@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ export class StorageService {
   myHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   newConfig = {id: 1, maxStorageVolume: 0};
   public refreshUsedStorage$ = new Subject<boolean>();
+  public maxStorageVolume$ = new ReplaySubject<number>(1);
+  public freeStorageVolume$ = new ReplaySubject<number>(1);
 
   constructor(private http: HttpClient) {
   }
