@@ -42,6 +42,7 @@ export class WaiterOrdersComponent implements OnInit {
   reservedIngredients: number[] = [];
   _dishCountForm: FormGroup;
   currentUserId = 0;
+  cookIsSelected = false;
   public auth$ = this.currentUserService.auth$;
 
   constructor(private userService: UsersService, private orderService: OrdersService, private dishService: DishService,
@@ -135,6 +136,7 @@ export class WaiterOrdersComponent implements OnInit {
   }
 
   chooseCook(cook: Users) {
+    this.cookIsSelected = true;
     this.choosedCook = cook;
 
   }
@@ -168,6 +170,7 @@ export class WaiterOrdersComponent implements OnInit {
           this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
         });
     });
+    this.cookIsSelected = false;
   }
 
   givenOrder(order: Orders) {
@@ -187,38 +190,44 @@ export class WaiterOrdersComponent implements OnInit {
     this.newHistory.statusId = 3;
     this.newHistory.userId = this.currentUserId; // Изменить на текующий!
     this.historyService.nextStatus(this.newHistory).subscribe(() =>
-      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => {
+        this.myOrders = resp;
+        const selectedOrder = this.myOrders.find(x => x.id === order.id);
+        this.selectMyOrder(selectedOrder)
+      })); // ИЗменить на текущий
   }
 
-  selectMyOrder(order: Orders) {
-    this.isTakeWaiter = 'Нет';
-    this.isTakeCook = 'Нет';
-    this.isGivenCook = 'Нет';
-    this.isGivenWaiter = 'Нет';
-    this.selectedOrder = order;
-    this.isChosed = true;
-    for (const hist of order.historyList) {
-      switch (hist.statusId) {
-        case 3: {
-          this.isTakeWaiter = 'Да';
-          this.isTakeCurrentOrderButton = true;
-          break;
-        }
-        case 4: {
-          this.isTakeCook = 'Да';
-          break;
-        }
-        case 5: {
-          this.isGivenCook = 'Да';
-          break;
-        }
-        case 6: {
-          this.isGivenWaiter = 'Да';
-          break;
+  selectMyOrder(order: Orders | undefined) {
+    if (order !== undefined) {
+      this.isTakeWaiter = 'Нет';
+      this.isTakeCook = 'Нет';
+      this.isGivenCook = 'Нет';
+      this.isGivenWaiter = 'Нет';
+      this.selectedOrder = order;
+      this.isChosed = true;
+      for (const hist of order.historyList) {
+        switch (hist.statusId) {
+          case 3: {
+            this.isTakeWaiter = 'Да';
+            this.isTakeCurrentOrderButton = true;
+            break;
+          }
+          case 4: {
+            this.isTakeCook = 'Да';
+            break;
+          }
+          case 5: {
+            this.isGivenCook = 'Да';
+            break;
+          }
+          case 6: {
+            this.isGivenWaiter = 'Да';
+            break;
+          }
         }
       }
+      this.checkIsStatus();
     }
-    this.checkIsStatus();
   }
 
   checkIsStatus() {

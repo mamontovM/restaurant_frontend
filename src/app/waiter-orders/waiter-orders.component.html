@@ -56,7 +56,7 @@
     <mat-form-field>
       <input matInput required [(ngModel)]="newOrder.comments" placeholder="Комментарий">
     </mat-form-field>
-    <button mat-button (click)="createOrder()" class="colorForButton">
+    <button mat-button (click)="createOrder()" class="colorForButton" [disabled]=!cookIsSelected>
       Создать заказ
     </button>
     <button mat-button (click)="cancelOrder()" class="colorForButton">
@@ -89,6 +89,7 @@
 
   </div>
   <div class="containerOrderList">
+    <div style="text-align: center">Мои заказы</div>
     <mat-list class="listOfUsers" *ngFor="let myOrder of myOrders">
       <button mat-list-item (click)="selectMyOrder(myOrder)">
         <div class="headerOfItems">
