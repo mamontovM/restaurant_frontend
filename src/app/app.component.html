@@ -6,12 +6,17 @@
   </div>
   <div>
     <a *appPermit="4" mat-button [routerLink]="'/ingredients'">
-      Ингредиенты (провизор)
+      Ингредиенты
     </a>
   </div>
   <div>
-    <a mat-button *appPermit="1" [routerLink]="'/ingredients-read'">
-      Ингредиенты(повар, админ)
+    <a mat-button *appPermit="1" [routerLink]="'/ingredientsAdmin'">
+      Ингредиенты
+    </a>
+  </div>
+  <div>
+    <a mat-button *appPermit="2" [routerLink]="'/ingredientsCook'">
+      Ингредиенты
     </a>
   </div>
   <div>

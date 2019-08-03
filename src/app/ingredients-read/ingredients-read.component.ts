@@ -9,7 +9,7 @@ import {Ingredient} from '../utils/Ingredient';
 
 
 @Component({
-  selector: 'app-ingredients',
+  selector: 'app-ingredients-read',
   templateUrl: './ingredients-read.component.html',
   styleUrls: ['./ingredients-read.component.scss'],
   animations: [
@@ -20,9 +20,9 @@ import {Ingredient} from '../utils/Ingredient';
     ]),
   ],
 })
-export class IngredientsReadOnlyComponent implements AfterViewInit {
+export class IngredientsReadComponent implements AfterViewInit {
   ingredients: Ingredient[] = [];
-  columnsToDisplay = ['id', 'name', 'measure', 'summaryAmount'];
+  columnsToDisplay = ['id', 'name', 'measure', 'summaryFreshAmount', 'summaryRottenAmount'];
   resultsLength = 0;
   expandedElement?: Ingredient | null;
 
@@ -55,7 +55,7 @@ export class IngredientsReadOnlyComponent implements AfterViewInit {
           // tslint:disable-next-line:no-unsafe-any
           sum += part.value;
         }
-        a.summaryAmount = sum;
+        a.summaryRottenAmount = sum - a.summaryFreshAmount;
         a.summaryVolume = sum * a.volumePerUnit;
       });
       this.ingredients = data;
