@@ -6,7 +6,8 @@ export class Ingredient {
   name?: string;
   measure?: string;
   volumePerUnit = 0;
-  summaryAmount?: number;
+  summaryFreshAmount = 0;
+  summaryRottenAmount?: number;
   summaryVolume?: number;
   parts: IngredientPart[] = [];
 }

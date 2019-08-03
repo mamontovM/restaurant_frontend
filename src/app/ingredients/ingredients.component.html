@@ -14,9 +14,13 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Ед.измерения</th>
       <td mat-cell *matCellDef="let ingredient"> {{ingredient.measure}}</td>
     </ng-container>
-    <ng-container matColumnDef="summaryAmount">
-      <th mat-header-cell *matHeaderCellDef>Общее кол-во(с просрочкой)</th>
-      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryAmount | number:'1.2-5'}}</td>
+    <ng-container matColumnDef="summaryRottenAmount">
+      <th mat-header-cell *matHeaderCellDef>Кол-во просрочки</th>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryRottenAmount | number:'1.2-5'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="summaryFreshAmount">
+      <th mat-header-cell *matHeaderCellDef>Кол-во свежего</th>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.summaryFreshAmount | number:'1.2-5'}}</td>
     </ng-container>
     <ng-container matColumnDef="volumePerUnit">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Объем на ед. м<sup>3</sup></th>

@@ -1,0 +1,48 @@
+/* Structure */
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.all-ingredients-table-container {
+  position: relative;
+  max-width: 80%;
+  overflow: auto;
+}
+
+//table {
+//  width: 80%;
+//}
+
+
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.expanded-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+

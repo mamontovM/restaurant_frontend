@@ -30,7 +30,7 @@ import {AlertDialogComponent} from '../dialog/alert.dialog';
 export class IngredientsComponent implements AfterViewInit {
   VALUE = 'value';
   ingredients: Ingredient[] = [];
-  columnsToDisplay = ['id', 'name', 'measure', 'summaryAmount', 'volumePerUnit', 'summaryVolume', 'delete'];
+  columnsToDisplay = ['id', 'name', 'measure', 'summaryFreshAmount', 'summaryRottenAmount', 'volumePerUnit', 'summaryVolume', 'delete'];
   newIngredient: Ingredient = new Ingredient();
   resultsLength = 0;
   expandedElement: Ingredient | null = null;
@@ -100,7 +100,7 @@ export class IngredientsComponent implements AfterViewInit {
           // tslint:disable-next-line:no-unsafe-any
           sum += part.value;
         }
-        a.summaryAmount = sum;
+        a.summaryRottenAmount = sum - a.summaryFreshAmount;
         a.summaryVolume = sum * a.volumePerUnit;
       });
       this.ingredients = data;

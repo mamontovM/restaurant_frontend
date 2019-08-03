@@ -26,6 +26,7 @@ import {
   MatProgressSpinnerModule,
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS,
+  DateAdapter,
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IngredientsComponent} from './ingredients/ingredients.component';
@@ -50,6 +51,8 @@ import {DeleteDialogComponent} from './dialog/delete.dialog';
 import {AlertDialogComponent} from './dialog/alert.dialog';
 import {IngredientsAdminComponent} from './ingredients-admin/ingredients-admin.component';
 import {IngredientsCookComponent} from './ingredients-cook/ingredients-cook.component';
+import {DateFormat} from './utils/date-format';
+import {IngredientsReadComponent} from './ingredients-read/ingredients-read.component';
 
 
 @NgModule({
@@ -73,6 +76,7 @@ import {IngredientsCookComponent} from './ingredients-cook/ingredients-cook.comp
     AlertDialogComponent,
     IngredientsAdminComponent,
     IngredientsCookComponent,
+    IngredientsReadComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,12 +115,14 @@ import {IngredientsCookComponent} from './ingredients-cook/ingredients-cook.comp
   providers: [
     HTTP_AUTH_INTERCEPTOR_PROVIDER,
     AUTH_INITIALIZER,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    {provide: DateAdapter, useClass: DateFormat}
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private router: Router) {
+  constructor(private router: Router, private dateAdapter: DateAdapter<Date>) {
+    dateAdapter.setLocale('en-in');
     router.events.pipe(
       filter(event => event instanceof GuardsCheckEnd),
       map(event => (event as GuardsCheckEnd).shouldActivate)
