@@ -5,7 +5,7 @@ import {IngredientPart} from '../utils/IngredientPart';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {BehaviorSubject, merge, of as observableOf, Subject} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {StorageService} from '../storage/storage.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -41,6 +41,8 @@ export class IngredientsComponent implements AfterViewInit {
   freeStorageVolume = 0;
   maxStorageVolume = 0;
   refreshIngredientsTable$ = new Subject<boolean>();
+  filter$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  filter = '';
 
   constructor(private ingredientService: IngredientService, private storageService: StorageService,
               private fb: FormBuilder, private dialog: MatDialog) {
@@ -69,8 +71,18 @@ export class IngredientsComponent implements AfterViewInit {
         [Validators.required, Validators.min(0.0000000001), Validators.max(this.freeStorageVolume / ingrVolumePerUnit)]);
     }
   }
-
+  applyFilter(value: string) {
+    this.filter$.next(value);
+  }
   ngAfterViewInit() {
+    this.filter$.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      map(data => {
+        this.filter = data;
+      })).subscribe(() => {
+      this.refreshIngredientsTable$.next(true);
+    });
     this.storageService.maxStorageVolume$.subscribe((data: number) => {
       this.maxStorageVolume = data;
       this.changeFormValidator();
@@ -84,7 +96,7 @@ export class IngredientsComponent implements AfterViewInit {
     this.refreshIngredientsTable$.pipe(
       switchMap(() => {
         return this.ingredientService
-          .getAllIngredients(this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+          .getAllIngredients(this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize, this.filter);
       }),
       map(data => {
         this.resultsLength = data.totalCount;

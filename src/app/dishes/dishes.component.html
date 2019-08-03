@@ -126,11 +126,6 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     <!--    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>-->
   </table>
-  <mat-paginator [length]="resultsLength" showFirstLastButtons [pageSize]='2'
-                 [pageSizeOptions]="[2, 5, 10, 25, 100]"></mat-paginator>
-</div>
-
-<div>
   <ng-container [formGroup]="_newDishForm">
     <mat-form-field>
       <mat-label>Название блюда</mat-label>
@@ -148,6 +143,9 @@
       <!--    <mat-error *appControlErrors="let error of 'name'">{{error}}</mat-error>-->
     </mat-form-field>
     <mat-checkbox formControlName="ismenu"> В меню</mat-checkbox>
+    <button mat-stroked-button [disabled]="_newDishForm.invalid" (click)="createDish()">Добавить блюдо</button>
   </ng-container>
-  <button mat-stroked-button [disabled]="_newDishForm.invalid" (click)="createDish()">Добавить блюдо</button>
+
+  <mat-paginator [length]="resultsLength" showFirstLastButtons [pageSize]='2'
+                 [pageSizeOptions]="[2, 5, 10, 25, 100]"></mat-paginator>
 </div>

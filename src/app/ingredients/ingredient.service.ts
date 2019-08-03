@@ -48,10 +48,9 @@ export class IngredientService {
     return this.http.get<boolean>(this.ingredientsPath + '/check?name=' + name, {headers: this.myHeaders});
   }
 
-  getAllIngredients(sort: string, order: string, pageIndex: number, pageSize: number): Observable<IngredientApi> {
-    return this.http.get<IngredientApi>(
-      this.ingredientsPath + '?pageIndex=' + pageIndex + '&sortedBy=' + sort + '&pageSize=' + pageSize + '&sortDir=' + order,
-      {headers: this.myHeaders});
+  getAllIngredients(sort: string, order: string, pageIndex: number, pageSize: number, filter: string): Observable<IngredientApi> {
+    return this.http.get<IngredientApi>(this.ingredientsPath + '?pageIndex=' + pageIndex + '&sortedBy=' + sort +
+      '&pageSize=' + pageSize + '&sortDir=' + order + '&filter=' + filter, {headers: this.myHeaders});
   }
   getAllIngredientsNoPagination(): Observable<Ingredient[]> {
     return this.http.get<Ingredient[]>(this.ingredientsPath + '/nopage', {headers: this.myHeaders});

@@ -39,7 +39,7 @@ export class IngredientsReadComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           return this.ingredientService
-            .getAllIngredients(this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+            .getAllIngredients(this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize, '');
         }),
         map(data => {
           this.resultsLength = data.totalCount;
