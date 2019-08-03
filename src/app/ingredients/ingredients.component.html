@@ -1,3 +1,9 @@
+<div class="filter">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Фильтр по названию" name="filter">
+  </mat-form-field>
+</div>
+
 <div class="all-ingredients-table-container">
   <table mat-table [dataSource]="ingredients" multiTemplateDataRows matSort matSortActive="id" matSortDisableClear
          matSortDirection="desc">
@@ -104,12 +110,6 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
   </table>
-  <mat-paginator [length]="resultsLength" showFirstLastButtons [pageSize]='2'
-                 [pageSizeOptions]="[2, 5, 10, 25, 100]"></mat-paginator>
-</div>
-
-<app-storage></app-storage>
-<div>
   <ng-container [formGroup]="_newIngredientForm">
     <mat-form-field>
       <mat-label>Название ингредиента</mat-label>
@@ -129,7 +129,14 @@
     <button mat-stroked-button [disabled]="_newIngredientForm.invalid" (click)="createIng()">Добавить ингредиент
     </button>
   </ng-container>
+  <mat-paginator [length]="resultsLength" showFirstLastButtons [pageSize]='2'
+                 [pageSizeOptions]="[2, 5, 10, 25, 100]"></mat-paginator>
 </div>
 
-<app-missing-ingredients></app-missing-ingredients>
+<app-storage></app-storage>
+<div>
+  <app-missing-ingredients></app-missing-ingredients>
+</div>
+
+
 
