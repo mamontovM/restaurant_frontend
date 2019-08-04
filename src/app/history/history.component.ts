@@ -11,8 +11,11 @@ import {Statistic} from '../utils/statistic';
 export class HistoryComponent implements OnInit {
   _statisticForm: FormGroup;
   statistic: Statistic = new Statistic();
-  usedIngredients: Map<string, number> = new Map<string, number>();
-  soldDishes: Map<string, number> = new Map<string, number>();
+  usedIngredients: StatisticData[] = [];
+  // usedIngredients: Map<string, number> = new Map<string, number>();
+  // soldDishes: Map<string, number> = new Map<string, number>();
+  soldDishes: StatisticData[] = [];
+  columnsToDisplay = ['name', 'count'];
 
   constructor(private fb: FormBuilder, private historyService: HistoryService) {
     this._statisticForm = fb.group({
@@ -30,12 +33,25 @@ export class HistoryComponent implements OnInit {
     this.historyService.getStatistic(from.getTime().toString(), to.getTime().toString())
       .subscribe((d: Statistic) => {
         this.statistic = d;
+        let i = 0;
+        let temp = [];
         for (const [key, value] of Object.entries(d.usedIngredients)) {
-          this.usedIngredients.set(key, value);
+          temp[i] = {name: key, count: value};
+          i++;
         }
+        this.usedIngredients = temp;
+        temp = [];
+        i = 0;
         for (const [key, value] of Object.entries(d.soldDishes)) {
-          this.soldDishes.set(key, value);
+          temp[i] = {name: key, count: value};
+          i++;
         }
+        this.soldDishes = temp;
       });
   }
+}
+
+export interface StatisticData {
+  name: string;
+  count: number;
 }

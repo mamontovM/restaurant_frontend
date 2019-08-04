@@ -1,4 +1,5 @@
-<div class="statistic">
+<!--<div class="statistic">-->
+<div>
   <ng-container [formGroup]="_statisticForm">
     <mat-form-field>
       <mat-label>Начания от</mat-label>
@@ -16,36 +17,45 @@
     </mat-form-field>
   </ng-container>
   <button mat-stroked-button [disabled]="_statisticForm.invalid" (click)="getStatistic()"> Получить статистику</button>
+</div>
+  <div>
+    Выручка {{this.statistic.revenue}}
+  </div>
   <div class="result">
-    <div>
-      Выручка {{this.statistic.revenue}}
-    </div>
-    <div>
-      <table>
-        <caption>Использованные ингредиенты</caption>
-        <tr>
-          <th> Название</th>
-          <th> Количество</th>
-        </tr>
 
-        <tr *ngFor="let item of this.usedIngredients | keyvalue">
-          <td> {{item.key}}</td>
-          <td> {{item.value | number:'1.2-5'}}</td>
-        </tr>
+
+    <div class="missing-ingredients-table-container">
+      <table mat-table [dataSource]="usedIngredients">
+        <caption>Использованные ингредиенты</caption>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Название</th>
+          <td mat-cell *matCellDef="let ingredient"> {{ingredient.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef>Количество</th>
+          <td mat-cell *matCellDef="let ingredient"> {{ingredient.count}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
+      <!--  <mat-paginator showFirstLastButtons [pageSize]='5' [pageSizeOptions]="[ 5, 10, 25, 100]"></mat-paginator>-->
     </div>
-    <div>
-      <table>
+
+    <div class="missing-ingredients-table-container">
+      <table mat-table [dataSource]="soldDishes">
         <caption>Проданные блюда</caption>
-        <tr>
-          <th> Название</th>
-          <th> Количество</th>
-        </tr>
-        <tr *ngFor="let item of this.soldDishes | keyvalue">
-          <td> {{item.key}}</td>
-          <td> {{item.value}}</td>
-        </tr>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Название</th>
+          <td mat-cell *matCellDef="let dish"> {{dish.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef>Количество</th>
+          <td mat-cell *matCellDef="let dish"> {{dish.count}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
+      <!--  <mat-paginator showFirstLastButtons [pageSize]='5' [pageSizeOptions]="[ 5, 10, 25, 100]"></mat-paginator>-->
     </div>
   </div>
-</div>
+<!--</div>-->
