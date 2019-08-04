@@ -7,8 +7,7 @@
     </mat-action-list>
   </div>
   <div class="windowOfUser">
-    <div>
-    </div>
+    <div class="contentOfWindowUser">
     <div #current *ngIf="isChosed === false; else change" class="changeWindow">
       <div class="textChangeContainer">Кликните по пользователю из списка для редактирования</div>
     </div>
@@ -27,7 +26,7 @@
         <mat-form-field>
           <input matInput required [(ngModel)]="chosedUser.password" placeholder="Пароль">
         </mat-form-field>
-        <mat-select placeholder="Роль: " [(ngModel)]="chosedUser.roleId">
+        <mat-select placeholder="Роль: " [(ngModel)]="chosedUser.roleId" class="selectRole">
           <mat-option *ngFor="let item of allRoles" [value]="item.id">
             {{item.name}}
           </mat-option>
@@ -38,6 +37,7 @@
         </div>
       </div>
     </ng-template>
+    </div>
   </div>
   <div class="containerForCreateUsers">
     <div class="inscriptionCreating">Создание</div>

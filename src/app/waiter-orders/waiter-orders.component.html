@@ -90,12 +90,12 @@
   </div>
   <div class="containerOrderList">
     <div style="text-align: center">Мои заказы</div>
-    <mat-list class="listOfUsers" *ngFor="let myOrder of myOrders">
-      <button mat-list-item (click)="selectMyOrder(myOrder)">
+    <mat-action-list class="listOfUsers" *ngFor="let myOrder of myOrders">
+      <button mat-list-item (click)="selectMyOrder(myOrder)" class="buttonOfMyOrder">
         <div class="headerOfItems">
           Номер заказа: {{myOrder.id}} комментарий: {{myOrder.comments}}
         </div>
       </button>
-    </mat-list>
+    </mat-action-list>
   </div>
 </div>

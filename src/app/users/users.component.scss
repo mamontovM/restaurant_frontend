@@ -46,29 +46,36 @@
 .windowOfUser {
   padding-right: 20%;
   padding-top: 3%;
-  padding-left: 25%;
-  padding-left: 1.5%;
+  padding-left: 17%;
   flex-grow: 2;
   display: flex;
   flex-direction: column;
 }
 
+.contentOfWindowUser {
+  width: 75%;
+}
+
+.selectRole {
+  width: 70%;
+}
+
 .save {
-  width: 35%;
+  width: 38%;
 }
 
 .delete {
-  margin-left: 5%;
-  width: 30%;
+  margin-left: 3%;
+  width: 33%;
 }
 
 .create {
-  width: 35%;
+  width: 45%;
 }
 
 .cancel {
   margin-left: 5%;
-  width: 35%;
+  width: 50%;
 }
 
 .containerButtons {
