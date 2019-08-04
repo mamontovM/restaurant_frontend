@@ -6,27 +6,32 @@
   flex-wrap: nowrap;
   justify-content: space-between;
 }
+
 .page > * {
   display: flex;
   flex-direction: column;
 }
 
-.scrollable{
+.scrollable {
   overflow-y: auto;
   height: 100%;
 }
+
 .addDish {
   margin-left: 15px;
-  background-color: rgb(245,245,245);
+  background-color: rgb(245, 245, 245);
 }
+
 .containerOfStatus {
   display: flex;
   flex-direction: column;
 }
+
 .buttonOrder {
-  background-color: rgb(245,245,245);
+  background-color: rgb(245, 245, 245);
   margin-top: 10px;
 }
+
 .contentListOfCook {
   display: flex;
   flex-direction: column;
@@ -34,16 +39,26 @@
   border-right: 0px;
   border-top: 0px;
 }
+
 .listOfCook {
   border: 1px lightgrey double;
   border-top: 0px;
   display: flex;
   align-items: flex-start;
 }
+
 .headerOfItems {
   text-align: center;
 }
+
 .colorForButton {
-  background-color: rgb(245,245,245);
+  background-color: rgb(245, 245, 245);
   margin-top: 8px;
+}
+
+.buttonOfMyOrder {
+  padding-top: 0;
+  border: 1px lightgrey double;
+  border-right: 0px;
+  border-top: 0px;
 }

@@ -42,6 +42,7 @@ export class WaiterOrdersComponent implements OnInit {
   reservedIngredients: number[] = [];
   _dishCountForm: FormGroup;
   currentUserId = 0;
+  cookIsSelected = false;
   public auth$ = this.currentUserService.auth$;
 
   constructor(private userService: UsersService, private orderService: OrdersService, private dishService: DishService,
@@ -135,6 +136,7 @@ export class WaiterOrdersComponent implements OnInit {
   }
 
   chooseCook(cook: Users) {
+    this.cookIsSelected = true;
     this.choosedCook = cook;
 
   }
@@ -168,6 +170,7 @@ export class WaiterOrdersComponent implements OnInit {
           this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp);
         });
     });
+    this.cookIsSelected = false;
   }
 
   givenOrder(order: Orders) {
@@ -187,7 +190,13 @@ export class WaiterOrdersComponent implements OnInit {
     this.newHistory.statusId = 3;
     this.newHistory.userId = this.currentUserId; // Изменить на текующий!
     this.historyService.nextStatus(this.newHistory).subscribe(() =>
-      this.orderService.getAllById(this.currentUserId).subscribe(resp => this.myOrders = resp)); // ИЗменить на текущий
+      this.orderService.getAllById(this.currentUserId).subscribe(resp => {
+        this.myOrders = resp;
+        const selectedOrder = this.myOrders.find(x => x.id === order.id);
+        if (selectedOrder !== undefined) {
+          this.selectMyOrder(selectedOrder);
+        }
+      }));
   }
 
   selectMyOrder(order: Orders) {
