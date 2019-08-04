@@ -193,41 +193,41 @@ export class WaiterOrdersComponent implements OnInit {
       this.orderService.getAllById(this.currentUserId).subscribe(resp => {
         this.myOrders = resp;
         const selectedOrder = this.myOrders.find(x => x.id === order.id);
-        this.selectMyOrder(selectedOrder)
-      })); // ИЗменить на текущий
+        if (selectedOrder !== undefined) {
+          this.selectMyOrder(selectedOrder);
+        }
+      }));
   }
 
-  selectMyOrder(order: Orders | undefined) {
-    if (order !== undefined) {
-      this.isTakeWaiter = 'Нет';
-      this.isTakeCook = 'Нет';
-      this.isGivenCook = 'Нет';
-      this.isGivenWaiter = 'Нет';
-      this.selectedOrder = order;
-      this.isChosed = true;
-      for (const hist of order.historyList) {
-        switch (hist.statusId) {
-          case 3: {
-            this.isTakeWaiter = 'Да';
-            this.isTakeCurrentOrderButton = true;
-            break;
-          }
-          case 4: {
-            this.isTakeCook = 'Да';
-            break;
-          }
-          case 5: {
-            this.isGivenCook = 'Да';
-            break;
-          }
-          case 6: {
-            this.isGivenWaiter = 'Да';
-            break;
-          }
+  selectMyOrder(order: Orders) {
+    this.isTakeWaiter = 'Нет';
+    this.isTakeCook = 'Нет';
+    this.isGivenCook = 'Нет';
+    this.isGivenWaiter = 'Нет';
+    this.selectedOrder = order;
+    this.isChosed = true;
+    for (const hist of order.historyList) {
+      switch (hist.statusId) {
+        case 3: {
+          this.isTakeWaiter = 'Да';
+          this.isTakeCurrentOrderButton = true;
+          break;
+        }
+        case 4: {
+          this.isTakeCook = 'Да';
+          break;
+        }
+        case 5: {
+          this.isGivenCook = 'Да';
+          break;
+        }
+        case 6: {
+          this.isGivenWaiter = 'Да';
+          break;
         }
       }
-      this.checkIsStatus();
     }
+    this.checkIsStatus();
   }
 
   checkIsStatus() {
